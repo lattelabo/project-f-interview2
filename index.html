@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>インタビューガイド｜プロジェクトF</title>
+  <style>
+    :root {
+      --primary: #7C3AED;
+      --primary-dark: #5B21B6;
+      --primary-light: #EDE9FE;
+      --bg: #F8F7FF;
+      --card: #FFFFFF;
+      --text: #1E1B2E;
+      --sub: #6B7280;
+      --border: #E5E7EB;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 55%, #A78BFA 100%);
+      color: #fff;
+      padding: 36px 20px 30px;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 5px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .hero h1 span { color: #FCD34D; }
+    .hero p {
+      font-size: 13px;
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 11px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .progress-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 52px;
+    }
+    .progress-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .progress-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .progress-dot.active {
+      background: var(--primary);
+      transform: scale(1.3);
+    }
+    .progress-hint {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--sub);
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 14px 80px;
+    }
+
+    /* ── ACCORDION CARD ── */
+    .q-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .q-card.open {
+      border-color: var(--primary);
+      box-shadow: 0 6px 24px rgba(124,58,237,0.13);
+    }
+
+    /* ── CARD HEADER ── */
+    .q-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .q-num {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, #7C3AED, #A78BFA);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      transition: background 0.2s;
+    }
+    .q-card.open .q-num {
+      background: linear-gradient(135deg, #5B21B6, #7C3AED);
+    }
+    .q-title {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .q-card.open .q-title { color: var(--primary); }
+    .q-arrow {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--sub);
+      transition: transform 0.25s, background 0.2s;
+    }
+    .q-card.open .q-arrow {
+      transform: rotate(180deg);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* ── CARD BODY ── */
+    .q-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .q-body-inner {
+      padding: 4px 18px 20px;
+    }
+
+    /* ── REACTION CHIPS ── */
+    .reaction-block {
+      background: #F5F3FF;
+      border: 1px solid #DDD6FE;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+    .reaction-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sub);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .reaction-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .reaction-chip {
+      background: #fff;
+      border: 1.5px solid #C4B5FD;
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 12px;
+      color: #5B21B6;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ── SUB CATEGORIES ── */
+    .sub-category { margin-bottom: 14px; }
+    .sub-category:last-child { margin-bottom: 0; }
+
+    .sub-cat-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 11px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .sub-cat-label.num  { background: #EFF6FF; color: #1D4ED8; }
+    .sub-cat-label.emo  { background: #FDF4FF; color: #7E22CE; }
+    .sub-cat-label.act  { background: #ECFDF5; color: #065F46; }
+    .sub-cat-label.sit  { background: #FFF7ED; color: #C2410C; }
+    .sub-cat-label.turn { background: #FFFBEB; color: #92400E; }
+    .sub-cat-label.use  { background: #F0FDF4; color: #166534; }
+    .sub-cat-label.msg  { background: #FFF1F2; color: #BE123C; }
+
+    .sub-items { display: flex; flex-direction: column; gap: 6px; }
+    .sub-item {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.65;
+      padding: 9px 12px;
+      background: #F9FAFB;
+      border-radius: 10px;
+      border-left: 3px solid #E5E7EB;
+    }
+    .sub-item::before {
+      content: '↳';
+      color: #9CA3AF;
+      flex-shrink: 0;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* category border colors */
+    .sub-category.num  .sub-item { border-left-color: #BFDBFE; }
+    .sub-category.emo  .sub-item { border-left-color: #DDD6FE; }
+    .sub-category.act  .sub-item { border-left-color: #A7F3D0; }
+    .sub-category.sit  .sub-item { border-left-color: #FED7AA; }
+    .sub-category.turn .sub-item { border-left-color: #FDE68A; }
+    .sub-category.use  .sub-item { border-left-color: #BBF7D0; }
+    .sub-category.msg  .sub-item { border-left-color: #FECDD3; }
+
+    @media (max-width: 480px) {
+      .hero { padding: 28px 16px 24px; }
+      .q-title { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="badge">🎬 Project F × Interview</div>
+  <h1>インタビュー<span>ガイド</span></h1>
+  <p>インタビュアー専用｜質問をタップして開く</p>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-bar">
+  <span class="progress-label" id="progressLabel">Q — / 7</span>
+  <div class="progress-dots">
+    <div class="progress-dot" data-q="1"></div>
+    <div class="progress-dot" data-q="2"></div>
+    <div class="progress-dot" data-q="3"></div>
+    <div class="progress-dot" data-q="4"></div>
+    <div class="progress-dot" data-q="5"></div>
+    <div class="progress-dot" data-q="6"></div>
+    <div class="progress-dot" data-q="7"></div>
+  </div>
+  <span class="progress-hint">タップで開閉</span>
+</div>
+
+<main class="container">
+
+  <!-- ①  -->
+  <div class="q-card" data-q="1">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">①</div>
+      <div class="q-title">今の年商、もしくは入会前と比べて何倍になったか、話せる範囲で教えてください</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「信じられなかった」</span>
+            <span class="reaction-chip">「泣きました」</span>
+            <span class="reaction-chip">「夫に見せた」</span>
+            <span class="reaction-chip">「スクショ撮った」</span>
+            <span class="reaction-chip">「夢みたいだった」</span>
+          </div>
+        </div>
+        <div class="sub-category num">
+          <span class="sub-cat-label num">📊 数字を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">それは何ヶ月で達成しましたか？</div>
+            <div class="sub-item">前職の年収と比べるとどうですか？</div>
+            <div class="sub-item">今、月商ベースだとどのくらいですか？</div>
+          </div>
+        </div>
+        <div class="sub-category emo">
+          <span class="sub-cat-label emo">💜 感情を深掘りする</span>
+          <div class="sub-items">
+            <div class="sub-item">その数字を初めて見た時、どんな気持ちでしたか？</div>
+            <div class="sub-item">信じられなかった瞬間はありましたか？</div>
+            <div class="sub-item">誰かに報告しましたか？その時の反応は？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ②  -->
+  <div class="q-card" data-q="2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">②</div>
+      <div class="q-title">プロジェクトFに出会う前、どんな状況にいましたか？</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「透明になった気がした」</span>
+            <span class="reaction-chip">「ただのお母さんになった」</span>
+            <span class="reaction-chip">「名刺がなくなった日」</span>
+            <span class="reaction-chip">「私じゃないみたいだった」</span>
+            <span class="reaction-chip">「誰でもできる仕事してた」</span>
+            <span class="reaction-chip">「悔しかった」</span>
+          </div>
+        </div>
+        <div class="sub-category sit">
+          <span class="sub-cat-label sit">📍 状況を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">もともとどんなキャリアを持っていましたか？</div>
+            <div class="sub-item">手放すことになったきっかけは何でしたか？</div>
+            <div class="sub-item">その期間はどのくらい続きましたか？</div>
+          </div>
+        </div>
+        <div class="sub-category emo">
+          <span class="sub-cat-label emo">💜 感情を深掘りする</span>
+          <div class="sub-items">
+            <div class="sub-item">その頃の自分を一言で表すとしたら？</div>
+            <div class="sub-item">「私のキャリアは終わった」と感じた瞬間はありましたか？</div>
+            <div class="sub-item">周りの目が気になることはありましたか？</div>
+            <div class="sub-item">起業は最初、自分に関係あると思っていましたか？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③  -->
+  <div class="q-card" data-q="3">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">③</div>
+      <div class="q-title">このままでいい、と思えなかった瞬間はいつでしたか？</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「このままじゃ終われない」</span>
+            <span class="reaction-chip">「悔しくて眠れなかった」</span>
+            <span class="reaction-chip">「子どもに見せたくない背中」</span>
+            <span class="reaction-chip">「夫より稼いでやると思った」</span>
+          </div>
+        </div>
+        <div class="sub-category emo">
+          <span class="sub-cat-label emo">💜 感情を深掘りする</span>
+          <div class="sub-items">
+            <div class="sub-item">一番悔しかったのはどんな瞬間でしたか？</div>
+            <div class="sub-item">誰かに話しましたか？それとも一人で抱えていましたか？</div>
+            <div class="sub-item">家族や夫はなんと言っていましたか？</div>
+          </div>
+        </div>
+        <div class="sub-category turn">
+          <span class="sub-cat-label turn">🔥 転換点を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">起業が「自分ごと」になったきっかけは何ですか？</div>
+            <div class="sub-item">ブランクがあることへの不安はありましたか？</div>
+            <div class="sub-item">プロジェクトFに入ることを決めた最後の決め手は？</div>
+            <div class="sub-item">入会を迷っていた時、何が一番引っかかっていましたか？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④  -->
+  <div class="q-card" data-q="4">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">④</div>
+      <div class="q-title">前職のキャリアは、起業にどう活きましたか？</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「素直にやった」</span>
+            <span class="reaction-chip">「完璧主義を捨てた」</span>
+            <span class="reaction-chip">「考えすぎるのをやめた」</span>
+            <span class="reaction-chip">「ひとりでやるのをやめた」</span>
+            <span class="reaction-chip">「仕組みを作った」</span>
+          </div>
+        </div>
+        <div class="sub-category sit">
+          <span class="sub-cat-label sit">📍 前職×起業の接点</span>
+          <div class="sub-items">
+            <div class="sub-item">具体的にどんなスキルや経験が武器になりましたか？</div>
+            <div class="sub-item">逆に「捨てた」考え方や習慣はありますか？</div>
+            <div class="sub-item">会社員時代と、起業してからで一番違うことは？</div>
+          </div>
+        </div>
+        <div class="sub-category act">
+          <span class="sub-cat-label act">✅ 行動・習慣を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">成果につながった行動を3つ挙げるとしたら？</div>
+            <div class="sub-item">一番効いた判断基準や習慣は何でしたか？</div>
+            <div class="sub-item">壁にぶつかった時、どこに戻りましたか？</div>
+            <div class="sub-item">決めてやり続けたことはありますか？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤  -->
+  <div class="q-card" data-q="5">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">⑤</div>
+      <div class="q-title">プロジェクトFの中に、同じような背景を持つ人はいましたか？</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「同じような人がいた」</span>
+            <span class="reaction-chip">「一人じゃなかった」</span>
+            <span class="reaction-chip">「環境が全てだった」</span>
+            <span class="reaction-chip">「めぐみさんが全部教えてくれた」</span>
+            <span class="reaction-chip">「本物だと思った」</span>
+          </div>
+        </div>
+        <div class="sub-category emo">
+          <span class="sub-cat-label emo">💜 仲間・環境について</span>
+          <div class="sub-items">
+            <div class="sub-item">「自分だけじゃなかった」と思った瞬間はありましたか？</div>
+            <div class="sub-item">一番刺激を受けたメンバーはどんな人でしたか？</div>
+            <div class="sub-item">コミュニティの雰囲気を一言で表すとしたら？</div>
+          </div>
+        </div>
+        <div class="sub-category use">
+          <span class="sub-cat-label use">🛠️ 活用法を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">めぐみさんから受け取った一番大きいものは何ですか？</div>
+            <div class="sub-item">一番使ったコンテンツや講座はどれですか？</div>
+            <div class="sub-item">困った時、どう活用しましたか？</div>
+            <div class="sub-item">プロジェクトFじゃなければ、今の自分はいたと思いますか？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥  -->
+  <div class="q-card" data-q="6">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">⑥</div>
+      <div class="q-title">キャリアを手放していた頃の自分と、今の自分。何が一番変わりましたか？</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「別人みたい」</span>
+            <span class="reaction-chip">「あの頃に戻りたくない」</span>
+            <span class="reaction-chip">「夫より稼いでる」</span>
+            <span class="reaction-chip">「やっと自分に戻った」</span>
+            <span class="reaction-chip">「子どもが誇ってくれてる」</span>
+          </div>
+        </div>
+        <div class="sub-category emo">
+          <span class="sub-cat-label emo">💜 変化を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">「取り戻した」ではなく「超えた」と感じる部分はありますか？</div>
+            <div class="sub-item">子どもや家族との関係は変わりましたか？</div>
+            <div class="sub-item">周りの人の反応で、印象に残っていることはありますか？</div>
+            <div class="sub-item">自分の中で「もう戻れないな」と思った瞬間はありますか？</div>
+          </div>
+        </div>
+        <div class="sub-category act">
+          <span class="sub-cat-label act">✅ 次のステージを引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">次に目指していることを教えてください</div>
+            <div class="sub-item">今、一番面白いと感じることは何ですか？</div>
+            <div class="sub-item">1年後、どんな自分でいたいですか？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦  -->
+  <div class="q-card" data-q="7">
+    <div class="q-header" onclick="toggleCard(this)">
+      <div class="q-num">⑦</div>
+      <div class="q-title">キャリアを諦めかけている人に、一言言うとしたら？</div>
+      <div class="q-arrow">▼</div>
+    </div>
+    <div class="q-body">
+      <div class="q-body-inner">
+        <div class="reaction-block">
+          <div class="reaction-label">💬 出てきやすい言葉</div>
+          <div class="reaction-chips">
+            <span class="reaction-chip">「早くやれ！」</span>
+            <span class="reaction-chip">「諦めなくていい」</span>
+            <span class="reaction-chip">「あなたのキャリア、死んでない」</span>
+            <span class="reaction-chip">「ブランクは関係なかった」</span>
+            <span class="reaction-chip">「最初の一歩だけ踏み出せば変わる」</span>
+          </div>
+        </div>
+        <div class="sub-category msg">
+          <span class="sub-cat-label msg">❤️ メッセージを引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">「起業は自分には関係ない」と思っている人に、何か伝えるとしたら？</div>
+            <div class="sub-item">ブランクがあることを理由に迷っている人へ、何と言いますか？</div>
+            <div class="sub-item">入会を迷っている人に、背中を押すとしたら？</div>
+          </div>
+        </div>
+        <div class="sub-category turn">
+          <span class="sub-cat-label turn">🔥 最初の一歩を引き出す</span>
+          <div class="sub-items">
+            <div class="sub-item">最初の一歩、何から始めればいいと思いますか？</div>
+            <div class="sub-item">あの頃の自分に一言言うとしたら？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleCard(headerEl) {
+    const card = headerEl.closest('.q-card');
+    const isOpen = card.classList.contains('open');
+
+    // 全部閉じる
+    document.querySelectorAll('.q-card').forEach(c => {
+      c.classList.remove('open');
+      c.querySelector('.q-body').style.maxHeight = '0';
+    });
+
+    // 閉じてた場合だけ開く
+    if (!isOpen) {
+      card.classList.add('open');
+      card.querySelector('.q-body').style.maxHeight = '1200px';
+    }
+
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const openCard = document.querySelector('.q-card.open');
+    const label = document.getElementById('progressLabel');
+    document.querySelectorAll('.progress-dot').forEach(d => d.classList.remove('active'));
+
+    if (openCard) {
+      const q = openCard.dataset.q;
+      label.textContent = `Q${q} / 7`;
+      document.querySelector(`.progress-dot[data-q="${q}"]`).classList.add('active');
+    } else {
+      label.textContent = 'Q — / 7';
+    }
+  }
+</script>
+</body>
+</html>
