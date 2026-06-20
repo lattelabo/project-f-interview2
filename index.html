@@ -143,13 +143,31 @@
     }
     .q-title {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .q-cat {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sub);
+      letter-spacing: 0.3px;
+    }
+    .q-card.open .q-cat { color: #9F7AEA; }
+    .q-main {
       font-size: 15px;
       font-weight: 700;
-      line-height: 1.5;
+      line-height: 1.45;
       color: var(--text);
       transition: color 0.2s;
     }
-    .q-card.open .q-title { color: var(--primary); }
+    .q-card.open .q-main { color: var(--primary); }
+    .q-note {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9CA3AF;
+      margin-top: 2px;
+    }
     .q-arrow {
       flex-shrink: 0;
       width: 26px; height: 26px;
@@ -297,7 +315,11 @@
   <div class="q-card" data-q="1">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">①</div>
-      <div class="q-title">今の年商、もしくは入会前と比べて何倍になったか、話せる範囲で教えてください</div>
+      <div class="q-title">
+        <span class="q-cat">ビフォア・アフター（成果の数字）</span>
+        <span class="q-main">今、年商／月商はどのくらいですか？</span>
+        <span class="q-note">💡 金額が難しければ「何倍」でもOK◎</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
@@ -336,7 +358,10 @@
   <div class="q-card" data-q="2">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">②</div>
-      <div class="q-title">プロジェクトFに出会う前、どんな状況にいましたか？</div>
+      <div class="q-title">
+        <span class="q-cat">ゼロイチ期の悩み</span>
+        <span class="q-main">入会前、一番つらかったことは？</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
@@ -377,7 +402,10 @@
   <div class="q-card" data-q="3">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">③</div>
-      <div class="q-title">このままでいい、と思えなかった瞬間はいつでしたか？</div>
+      <div class="q-title">
+        <span class="q-cat">転機・きっかけ</span>
+        <span class="q-main">もう一度本気で動こうと思ったきっかけは？</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
@@ -416,7 +444,10 @@
   <div class="q-card" data-q="4">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">④</div>
-      <div class="q-title">前職のキャリアは、起業にどう活きましたか？</div>
+      <div class="q-title">
+        <span class="q-cat">成果につながった行動</span>
+        <span class="q-main">プロFに入って、成果につながった行動は何でしたか？</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
@@ -432,7 +463,7 @@
           </div>
         </div>
         <div class="sub-category sit">
-          <span class="sub-cat-label sit">📍 前職×起業の接点</span>
+          <span class="sub-cat-label sit">📍 プロFで得たもの</span>
           <div class="sub-items">
             <div class="sub-item">具体的にどんなスキルや経験が武器になりましたか？</div>
             <div class="sub-item">逆に「捨てた」考え方や習慣はありますか？</div>
@@ -456,7 +487,10 @@
   <div class="q-card" data-q="5">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">⑤</div>
-      <div class="q-title">プロジェクトFの中に、同じような背景を持つ人はいましたか？</div>
+      <div class="q-title">
+        <span class="q-cat">プロジェクトF活用</span>
+        <span class="q-main">環境や仲間からどんな影響を受けましたか？</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
@@ -496,7 +530,10 @@
   <div class="q-card" data-q="6">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">⑥</div>
-      <div class="q-title">キャリアを手放していた頃の自分と、今の自分。何が一番変わりましたか？</div>
+      <div class="q-title">
+        <span class="q-cat">今のフェーズ</span>
+        <span class="q-main">入会前と今、一番変わったことは？</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
@@ -536,7 +573,10 @@
   <div class="q-card" data-q="7">
     <div class="q-header" onclick="toggleCard(this)">
       <div class="q-num">⑦</div>
-      <div class="q-title">キャリアを諦めかけている人に、一言言うとしたら？</div>
+      <div class="q-title">
+        <span class="q-cat">視聴者へのメッセージ</span>
+        <span class="q-main">今、同じ悩みを持っている人にひとこと</span>
+      </div>
       <div class="q-arrow">▼</div>
     </div>
     <div class="q-body">
